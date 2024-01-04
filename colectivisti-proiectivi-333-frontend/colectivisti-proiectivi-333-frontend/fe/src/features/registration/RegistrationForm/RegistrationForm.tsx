@@ -171,7 +171,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ loginClick }
             }}
             value={Role.MENTOR}
             control={<Radio size="small" color="secondary" />}
-            label="Mentor"
+            label="Company"
           />
         </RadioGroup>
 
