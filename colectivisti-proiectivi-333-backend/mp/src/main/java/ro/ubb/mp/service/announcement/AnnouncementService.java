@@ -13,7 +13,7 @@ public interface AnnouncementService {
 
     List<Announcement> getAnnouncementsOrderedByDate();
 
-    List<Announcement> getAnnouncementFilteredByTitleOrDescription(String queryString);
+    List<Announcement> getAnnouncementFilteredByInternshipType(String queryString);
 
     Announcement saveAnnouncement(AnnouncementRequestDTO announcementRequestDTO);
 

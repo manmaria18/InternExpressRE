@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -21,14 +22,16 @@ public class Announcement {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private InterestArea interestAreas;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     private String title;
-    private BigDecimal price;
-    private Date postingDate;
+    private LocalDateTime postingDate;
+    private String duration;
+    private String domain;
+    private LocalDateTime startDate;
     private String description;
+    private String detailLink;
 
+    @Enumerated(EnumType.STRING)
+    private InternshipType type;
 }

@@ -46,16 +46,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public Announcement saveAnnouncement(AnnouncementRequestDTO announcementDTO) {
         final User user = getUserService().getUserById(announcementDTO.getUserId()).
                 orElseThrow(EntityNotFoundException::new);
-        final InterestArea interestArea = getInterestAreaService().findById(announcementDTO.getInterestAreasId()).
-                orElseThrow(EntityNotFoundException::new);
+
 
         final Announcement announcementToBeSaved = Announcement.builder()
                 .description(announcementDTO.getDescription())
-                .price(announcementDTO.getPrice())
                 .title(announcementDTO.getTitle())
-                .postingDate(Timestamp.from(Instant.now()))
+                .postingDate(Timestamp.from(Instant.now()).toLocalDateTime())
                 .user(user)
-                .interestAreas(interestArea)
+                .detailLink(announcementDTO.getDetailLink())
+                .duration(announcementDTO.getDuration())
+                .domain(announcementDTO.getDomain())
+                .startDate(announcementDTO.getStartDate())
+                .type(announcementDTO.getType())
                 .build();
         return announcementRepository.save(announcementToBeSaved);
 
@@ -65,13 +67,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public Announcement updateAnnouncement(AnnouncementRequestDTO announcementRequestDTO, Long id) {
         Announcement announcement = findById(id).orElseThrow(EntityNotFoundException::new);
 
-        final InterestArea interestArea = getInterestAreaService().findById(announcementRequestDTO.getInterestAreasId()).
-                orElseThrow(EntityNotFoundException::new);
 
         announcement.setDescription(announcementRequestDTO.getDescription());
         announcement.setTitle(announcementRequestDTO.getTitle());
-        announcement.setPrice(announcementRequestDTO.getPrice());
-        announcement.setInterestAreas(interestArea);
+        announcement.setDuration(announcementRequestDTO.getDuration());
+        announcement.setDetailLink(announcementRequestDTO.getDetailLink());
+        announcement.setType(announcementRequestDTO.getType());
+        announcement.setDomain(announcementRequestDTO.getDomain());
+        announcement.setStartDate(announcementRequestDTO.getStartDate());
+
 
         return announcementRepository.save(announcement);
 
@@ -84,11 +88,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<Announcement> getAnnouncementFilteredByTitleOrDescription(String queryString) {
+    public List<Announcement> getAnnouncementFilteredByInternshipType(String queryString) {
         if (!StringUtils.hasText(queryString)) {
             return announcementRepository.findAll();
         }
-        return announcementRepository.findAllByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(queryString, queryString);
+        return announcementRepository.findAllByTypeContainingIgnoreCase(queryString);
     }
 
 }
