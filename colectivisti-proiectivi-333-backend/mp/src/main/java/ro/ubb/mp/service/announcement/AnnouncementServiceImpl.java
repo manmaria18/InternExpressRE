@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import ro.ubb.mp.controller.dto.request.AnnouncementRequestDTO;
 import ro.ubb.mp.dao.model.Announcement;
 import ro.ubb.mp.dao.model.InterestArea;
+import ro.ubb.mp.dao.model.InternshipType;
 import ro.ubb.mp.dao.model.User;
 import ro.ubb.mp.dao.repository.AnnouncementRepository;
 import ro.ubb.mp.service.interestArea.InterestAreaService;
@@ -92,7 +93,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (!StringUtils.hasText(queryString)) {
             return announcementRepository.findAll();
         }
-        return announcementRepository.findAllByTypeContainingIgnoreCase(queryString);
+
+        InternshipType type = InternshipType.valueOf(queryString);
+        return announcementRepository.findAllByType(type);
     }
 
 }

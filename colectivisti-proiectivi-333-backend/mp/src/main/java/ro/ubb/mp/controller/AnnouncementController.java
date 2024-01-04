@@ -61,6 +61,7 @@ public class AnnouncementController {
     @GetMapping("/filterByInternshipType")
     public ResponseEntity<List<AnnouncementResponseDTO>> filterAnnouncementsByInternshipType(
             @RequestParam(defaultValue = "") String q){
+        
 
         List<Announcement> filteredAnnouncements = announcementService.getAnnouncementFilteredByInternshipType(q);
 
