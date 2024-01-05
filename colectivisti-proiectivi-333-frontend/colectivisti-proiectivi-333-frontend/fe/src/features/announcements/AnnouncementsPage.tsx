@@ -80,11 +80,15 @@ const AnnouncementsPage: React.FC = () => {
               id={announcement.id}
               title={announcement.title}
               description={announcement.description}
-              price={announcement.price}
               createdBy={announcement.user}
               interestAreas={announcement.interestAreas}
               createdAtDate={announcement.postingDate}
               category={selectedCategory}
+              domain={announcement.domain}
+              duration={announcement.duration}
+              startDate={announcement.startDate}
+              internshipType={announcement.internshipType}
+              linkToCompanyPage={announcement.linkToCompanyPage}
               onUpdateClick={() => handleOpenAnnouncementWhenUpdate(announcement)}
             />
           ))}

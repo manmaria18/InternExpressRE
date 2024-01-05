@@ -19,7 +19,7 @@ import { selectInterestAreasOptions, selectInterestAreasOptionsLoading, selectUs
 import { fetchInterestAreasOptions } from '../../account/actions'
 import { LoadingOverlay } from '../../common/LoadingOverlay'
 import { addAnnouncement, updateAnnouncement } from '../actions'
-import { Select, MenuItem } from '@material-ui/core'
+//import { Select, MenuItem } from '@material-ui/core'
 
 export type CreateAnnouncementType = {
   id: number
@@ -67,8 +67,8 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
   const { field: internshipType } = useController({ name: 'internshipType', control })
   const { field: domain } = useController({ name: 'domain', control })
   const { field: startDate } = useController({ name: 'startDate', control })
-  const { field: linkToCompanyPage } = useController({ name: 'linkToCompanyPage' })
-  const { field: interestArea } = useController({ name: 'interestArea', control })
+  const { field: linkToCompanyPage } = useController({ name: 'linkToCompanyPage', control })
+  //const { field: interestArea } = useController({ name: 'interestArea', control })
   const { field: description } = useController({
     name: 'description',
     control,
@@ -81,7 +81,6 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
     // Fill with pre-existing data when updating
     if (announcement) {
       setValue('title', announcement.title)
-      //setValue('price', announcement.price)
       setValue('interestArea', announcement.interestAreas.name)
       setValue('description', announcement.description)
       setValue('duration', announcement.duration)
@@ -113,7 +112,11 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
 
   const handleAssignmentSubmit: SubmitHandler<CreateAnnouncementType> = async formData => {
     getInterestAreaId(formData.interestArea)
+    // eslint-disable-next-line no-console
+    console.log('I WAS HERE: STEP 1')
     if (areasId && userData && !editMode) {
+      // eslint-disable-next-line no-console
+      console.log('I WAS HERE: STEP 2')
       dispatch(
         addAnnouncement({
           interestAreasId: areasId,
@@ -228,19 +231,19 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
             {/*    internshipType.onChange(newInternshipType.target.value)*/}
             {/*  }}*/}
             {/*/>*/}
-            <Select
-              labelId="internshipType-label"
-              id="internshipType"
-              name="internshipType"
-              value={internshipType.value}
-              onChange={internshipType.onChange}
-            >
-              {/* Add your dropdown options here */}
-              <MenuItem value="option1">Fisical</MenuItem>
-              <MenuItem value="option2">Remote</MenuItem>
-              <MenuItem value="option2">Hybrid</MenuItem>
-              {/* Add more options as needed */}
-            </Select>
+            {/*<Select*/}
+            {/*  labelId="internshipType-label"*/}
+            {/*  id="internshipType"*/}
+            {/*  name="internshipType"*/}
+            {/*  value={internshipType.value}*/}
+            {/*  onChange={internshipType.onChange}*/}
+            {/*>*/}
+            {/*  /!* Add your dropdown options here *!/*/}
+            {/*  <MenuItem value="option1">Fisical</MenuItem>*/}
+            {/*  <MenuItem value="option2">Remote</MenuItem>*/}
+            {/*  <MenuItem value="option2">Hybrid</MenuItem>*/}
+            {/*  /!* Add more options as needed *!/*/}
+            {/*</Select>*/}
             <TextField
               label="StartDate"
               name="start date"
@@ -271,16 +274,16 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
               renderInput={params => (
                 <TextField
                   {...params}
-                  helperText={errors.interestArea?.message}
-                  error={!!errors.interestArea?.message}
+                  helperText={errors.internshipType?.message}
+                  error={!!errors.internshipType?.message}
                   color="secondary"
                   InputLabelProps={{ shrink: true }}
-                  label="Interest area"
+                  label="Internship type"
                 />
               )}
-              onChange={(_, newInterestArea) => {
-                clearErrors('interestArea')
-                interestArea.onChange(newInterestArea, { shouldDirty: true })
+              onChange={(_, newInternshipType) => {
+                clearErrors('internshipType')
+                internshipType.onChange(newInternshipType, { shouldDirty: true })
               }}
             />
             <FormInput

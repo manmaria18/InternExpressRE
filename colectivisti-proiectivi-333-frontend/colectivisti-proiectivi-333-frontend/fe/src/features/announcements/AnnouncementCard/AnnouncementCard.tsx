@@ -18,11 +18,15 @@ interface AnnouncementsCardProps {
   id: number
   title: string
   description: string
-  price: number
   createdBy: AnnouncementUserResponseDTO
   interestAreas: InterestAreasResponseDTO
   category: AnnouncementCategory
   createdAtDate: Date
+  domain: string
+  startDate: Date
+  internshipType: string
+  duration: string
+  linkToCompanyPage: URL
   onUpdateClick: () => void
 }
 
@@ -30,7 +34,21 @@ export const AnnouncementCard: React.FC<AnnouncementsCardProps> = props => {
   const dispatch = useAppDispatch()
   const userData = useAppSelector(selectUserData)
   const isMentor = userData?.role === 'MENTOR'
-  const { id, title, description, price, createdBy, createdAtDate, interestAreas, category, onUpdateClick } = props
+  const {
+    id,
+    title,
+    description,
+    createdBy,
+    createdAtDate,
+    interestAreas,
+    category,
+    domain,
+    linkToCompanyPage,
+    duration,
+    internshipType,
+    startDate,
+    onUpdateClick,
+  } = props
 
   const handleDelete = () => {
     dispatch(deleteAnnouncement(id)).then(() => {
@@ -64,9 +82,6 @@ export const AnnouncementCard: React.FC<AnnouncementsCardProps> = props => {
         <Typography variant="body2">{description}</Typography>
       </Body>
       <Footer>
-        <Typography variant="body2" color="gray">
-          Price: {price} RON/hour
-        </Typography>
         {isMentor && category === AnnouncementCategory.FOLLOWED && (
           <>
             <ActionButtons>
