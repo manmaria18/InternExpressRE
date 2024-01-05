@@ -8,5 +8,4 @@ import lombok.Data;
 public class AnnouncementUserResponseDTO {
     private Long id;
     private String fullName;
-    private String profilePicture;
 }
