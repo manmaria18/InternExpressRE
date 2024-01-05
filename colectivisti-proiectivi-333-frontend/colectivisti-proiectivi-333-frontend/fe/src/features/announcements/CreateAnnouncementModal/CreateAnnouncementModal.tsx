@@ -19,13 +19,18 @@ import { selectInterestAreasOptions, selectInterestAreasOptionsLoading, selectUs
 import { fetchInterestAreasOptions } from '../../account/actions'
 import { LoadingOverlay } from '../../common/LoadingOverlay'
 import { addAnnouncement, updateAnnouncement } from '../actions'
+import { Select, MenuItem } from '@material-ui/core'
 
 export type CreateAnnouncementType = {
   id: number
   title: string
+  duration: string
   interestArea: string
   description: string
-  price: number
+  internshipType: string
+  domain: string
+  linkToCompanyPage: URL
+  startDate: Date
 }
 
 interface CreateAnnouncementModalProps {
@@ -58,7 +63,11 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
   const interestAreasOptionsLoading = useAppSelector(selectInterestAreasOptionsLoading)
 
   const { field: title } = useController({ name: 'title', control })
-  const { field: price } = useController({ name: 'price', control })
+  const { field: duration } = useController({ name: 'duration', control })
+  const { field: internshipType } = useController({ name: 'internshipType', control })
+  const { field: domain } = useController({ name: 'domain', control })
+  const { field: startDate } = useController({ name: 'startDate', control })
+  const { field: linkToCompanyPage } = useController({ name: 'linkToCompanyPage' })
   const { field: interestArea } = useController({ name: 'interestArea', control })
   const { field: description } = useController({
     name: 'description',
@@ -72,9 +81,14 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
     // Fill with pre-existing data when updating
     if (announcement) {
       setValue('title', announcement.title)
-      setValue('price', announcement.price)
+      //setValue('price', announcement.price)
       setValue('interestArea', announcement.interestAreas.name)
       setValue('description', announcement.description)
+      setValue('duration', announcement.duration)
+      setValue('domain', announcement.domain)
+      setValue('internshipType', announcement.internshipType)
+      setValue('linkToCompanyPage', announcement.linkToCompanyPage)
+      setValue('startDate', announcement.startDate)
     }
   }, [announcement])
 
@@ -105,7 +119,11 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
           interestAreasId: areasId,
           userId: userData?.id,
           title: formData.title,
-          price: formData.price,
+          duration: formData.duration,
+          domain: formData.domain,
+          internshipType: formData.internshipType,
+          linkToCompanyPage: formData.linkToCompanyPage,
+          startDate: formData.startDate,
           description: formData.description,
         })
       )
@@ -118,7 +136,11 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
           interestAreasId: areasId,
           userId: userData?.id,
           title: formData.title,
-          price: formData.price,
+          duration: formData.duration,
+          domain: formData.domain,
+          internshipType: formData.internshipType,
+          linkToCompanyPage: formData.linkToCompanyPage,
+          startDate: formData.startDate,
           description: formData.description,
         })
       )
@@ -128,10 +150,15 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
 
   const handleCloseModal = () => {
     reset({
+      id: 0,
       title: '',
       description: '',
       interestArea: '',
-      price: undefined,
+      duration: '',
+      domain: '',
+      internshipType: '',
+      //linkToCompanyPage: '',
+      //startDate: Date.now(),
     })
     handleClose()
   }
@@ -166,15 +193,76 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
               helperText={errors.title?.message}
             />
             <TextField
-              label="Price"
-              name="price"
+              label="Duration"
+              name="duration"
               size="small"
               color="secondary"
-              type="number"
-              error={!!errors.price}
-              helperText={errors.price?.message}
-              onChange={newPrice => {
-                price.onChange(newPrice.target.value)
+              type="text"
+              error={!!errors.duration}
+              helperText={errors.duration?.message}
+              onChange={newDuration => {
+                duration.onChange(newDuration.target.value)
+              }}
+            />
+            <TextField
+              label="Domain"
+              name="domain"
+              size="small"
+              color="secondary"
+              type="text"
+              error={!!errors.domain}
+              helperText={errors.domain?.message}
+              onChange={newDomain => {
+                domain.onChange(newDomain.target.value)
+              }}
+            />
+            {/*<TextField*/}
+            {/*  label="InternshipType"*/}
+            {/*  name="internshipType"*/}
+            {/*  size="small"*/}
+            {/*  color="secondary"*/}
+            {/*  type="text"*/}
+            {/*  error={!!errors.internshipType}*/}
+            {/*  helperText={errors.internshipType?.message}*/}
+            {/*  onChange={newInternshipType => {*/}
+            {/*    internshipType.onChange(newInternshipType.target.value)*/}
+            {/*  }}*/}
+            {/*/>*/}
+            <Select
+              labelId="internshipType-label"
+              id="internshipType"
+              name="internshipType"
+              value={internshipType.value}
+              onChange={internshipType.onChange}
+            >
+              {/* Add your dropdown options here */}
+              <MenuItem value="option1">Fisical</MenuItem>
+              <MenuItem value="option2">Remote</MenuItem>
+              <MenuItem value="option2">Hybrid</MenuItem>
+              {/* Add more options as needed */}
+            </Select>
+            <TextField
+              label="StartDate"
+              name="start date"
+              size="small"
+              color="secondary"
+              type="date"
+              error={!!errors.startDate}
+              helperText={errors.startDate?.message}
+              onChange={newStartDate => {
+                startDate.onChange(newStartDate.target.value)
+              }}
+            />
+            <TextField
+              label="LinkToCompanyPage"
+              name="link to company page"
+              size="small"
+              color="secondary"
+              type="url"
+              error={!!errors.linkToCompanyPage}
+              helperText={errors.linkToCompanyPage?.message}
+              onChange={newLink => {
+                linkToCompanyPage.onChange(newLink.target.value)
               }}
             />
             <Autocomplete

@@ -18,7 +18,11 @@ export interface Announcement {
   user: AnnouncementUserResponseDTO
   interestAreas: InterestAreasResponseDTO
   description: string
-  price: number
+  duration: string
+  domain: string
+  internshipTipe: string
+  startDate: Date
+  linkToCompanyPage: URL
 }
 
 export interface AnnouncementDto {
@@ -28,7 +32,11 @@ export interface AnnouncementDto {
   user: AnnouncementUserResponseDTO
   interestAreas: InterestAreasResponseDTO
   description: string
-  price: number
+  duration: string
+  domain: string
+  internshipType: string
+  startDate: Date
+  linkToCompanyPage: URL
 }
 
 export interface Submission {
@@ -36,7 +44,11 @@ export interface Submission {
   title: string
   interestAreasId: number | null
   description: string
-  price: number
+  duration: string
+  domain: string
+  internshipType: string
+  startDate: Date
+  linkToCompanyPage: URL
 }
 
 export interface UpdateSubmission {
@@ -45,5 +57,9 @@ export interface UpdateSubmission {
   title: string
   interestAreasId: number | null
   description: string
-  price: number
+  duration: string
+  domain: string
+  internshipType: string
+  startDate: Date
+  linkToCompanyPage: URL
 }

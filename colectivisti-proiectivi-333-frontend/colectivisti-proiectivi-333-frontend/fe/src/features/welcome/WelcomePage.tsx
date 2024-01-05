@@ -24,13 +24,13 @@ const WelcomePage: React.FC = () => {
 
   const leftSectionInfo = {
     [Mode.REGISTER]: {
-      title: 'Find a mentor',
-      subtitle: 'suitable to your needs',
+      title: 'Join InternEXPRESS',
+      subtitle: 'Find your perfect internship! Find the perfect members for your team!',
       src: registerIllustrationSrc,
     },
     [Mode.LOGIN]: {
-      title: 'Welcome back!',
-      subtitle: '',
+      title: 'Welcome back to',
+      subtitle: 'InternEXPRESS!!',
       src: loginIllustrationSrc,
     },
   }
