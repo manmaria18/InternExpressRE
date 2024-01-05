@@ -34,21 +34,7 @@ export const AnnouncementCard: React.FC<AnnouncementsCardProps> = props => {
   const dispatch = useAppDispatch()
   const userData = useAppSelector(selectUserData)
   const isMentor = userData?.role === 'MENTOR'
-  const {
-    id,
-    title,
-    description,
-    createdBy,
-    createdAtDate,
-    interestAreas,
-    category,
-    domain,
-    linkToCompanyPage,
-    duration,
-    internshipType,
-    startDate,
-    onUpdateClick,
-  } = props
+  const { id, title, description, createdBy, createdAtDate, interestAreas, category, onUpdateClick } = props
 
   const handleDelete = () => {
     dispatch(deleteAnnouncement(id)).then(() => {

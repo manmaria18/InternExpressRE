@@ -19,7 +19,7 @@ import { selectInterestAreasOptions, selectInterestAreasOptionsLoading, selectUs
 import { fetchInterestAreasOptions } from '../../account/actions'
 import { LoadingOverlay } from '../../common/LoadingOverlay'
 import { addAnnouncement, updateAnnouncement } from '../actions'
-//import { Select, MenuItem } from '@material-ui/core'
+import { Select, MenuItem } from '@material-ui/core'
 
 export type CreateAnnouncementType = {
   id: number
@@ -61,7 +61,16 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
   } = formMethods
   const interestAreasOptions = useAppSelector(selectInterestAreasOptions)
   const interestAreasOptionsLoading = useAppSelector(selectInterestAreasOptionsLoading)
-
+  const predefinedInterestAreas = [
+    { id: 1, name: 'Technology' },
+    { id: 2, name: 'Science' },
+    { id: 3, name: 'Art' },
+    { id: 4, name: 'Computer Science' },
+    { id: 5, name: 'Law' },
+    { id: 6, name: 'Psychology' },
+  ]
+  //HERE--------------------------
+  //const { field: interestAreasField } = useController({ name: 'interestAreas', control })
   const { field: title } = useController({ name: 'title', control })
   const { field: duration } = useController({ name: 'duration', control })
   const { field: internshipType } = useController({ name: 'internshipType', control })
@@ -114,7 +123,13 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
     getInterestAreaId(formData.interestArea)
     // eslint-disable-next-line no-console
     console.log('I WAS HERE: STEP 1')
-    if (areasId && userData && !editMode) {
+    // eslint-disable-next-line no-console
+    console.log('areasId' + areasId)
+    // eslint-disable-next-line no-console
+    console.log('userData' + userData)
+    // eslint-disable-next-line no-console
+    console.log('editMode' + editMode)
+    if (userData && !editMode) {
       // eslint-disable-next-line no-console
       console.log('I WAS HERE: STEP 2')
       dispatch(
@@ -231,19 +246,19 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
             {/*    internshipType.onChange(newInternshipType.target.value)*/}
             {/*  }}*/}
             {/*/>*/}
-            {/*<Select*/}
-            {/*  labelId="internshipType-label"*/}
-            {/*  id="internshipType"*/}
-            {/*  name="internshipType"*/}
-            {/*  value={internshipType.value}*/}
-            {/*  onChange={internshipType.onChange}*/}
-            {/*>*/}
-            {/*  /!* Add your dropdown options here *!/*/}
-            {/*  <MenuItem value="option1">Fisical</MenuItem>*/}
-            {/*  <MenuItem value="option2">Remote</MenuItem>*/}
-            {/*  <MenuItem value="option2">Hybrid</MenuItem>*/}
-            {/*  /!* Add more options as needed *!/*/}
-            {/*</Select>*/}
+            <Select
+              labelId="internshipType-label"
+              id="internshipType"
+              name="internshipType"
+              value={internshipType.value}
+              onChange={internshipType.onChange}
+            >
+              {/* Add your dropdown options here */}
+              <MenuItem value="option1">Fisical</MenuItem>
+              <MenuItem value="option2">Remote</MenuItem>
+              <MenuItem value="option2">Hybrid</MenuItem>
+              {/* Add more options as needed */}
+            </Select>
             <TextField
               label="StartDate"
               name="start date"
@@ -268,24 +283,71 @@ export const CreateAnnouncementModal: React.FC<CreateAnnouncementModalProps> = (
                 linkToCompanyPage.onChange(newLink.target.value)
               }}
             />
+            {/*<Autocomplete*/}
+            {/*  options={listOfInterestAreas || []}*/}
+            {/*  filterSelectedOptions*/}
+            {/*  renderInput={params => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      helperText={errors.internshipType?.message}*/}
+            {/*      error={!!errors.internshipType?.message}*/}
+            {/*      color="secondary"*/}
+            {/*      InputLabelProps={{ shrink: true }}*/}
+            {/*      label="Internship type"*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  onChange={(_, newInternshipType) => {*/}
+            {/*    clearErrors('internshipType')*/}
+            {/*    internshipType.onChange(newInternshipType, { shouldDirty: true })*/}
+            {/*  }}*/}
+            {/*/>*/}
+            {/*<Autocomplete*/}
+            {/*  options={predefinedInterestAreas || []}*/}
+            {/*  filterSelectedOptions*/}
+            {/*  renderInput={params => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      helperText={errors.interestArea?.message}*/}
+            {/*      error={!!errors.interestArea?.message}*/}
+            {/*      color="secondary"*/}
+            {/*      InputLabelProps={{ shrink: true }}*/}
+            {/*      label="Interest area"*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  onChange={(_, newInterestArea) => {*/}
+            {/*    clearErrors('interestArea')*/}
+            {/*    interestArea.onChange(newInterestArea, { shouldDirty: true })*/}
+            {/*  }}*/}
+            {/*/>*/}
+            {/*HERE STRICAT---------------------------------------*/}
             <Autocomplete
-              options={listOfInterestAreas || []}
+              multiple
+              options={predefinedInterestAreas}
+              getOptionLabel={option => option.name}
+              getOptionSelected={(option, value) => option.id === value.id}
+              value={interestAreasField ?? []}
               filterSelectedOptions
               renderInput={params => (
                 <TextField
                   {...params}
-                  helperText={errors.internshipType?.message}
-                  error={!!errors.internshipType?.message}
+                  helperText={errors.interestAreas?.message}
+                  error={!!errors.interestAreas}
                   color="secondary"
                   InputLabelProps={{ shrink: true }}
-                  label="Internship type"
+                  label="Interest Areas"
                 />
               )}
-              onChange={(_, newInternshipType) => {
-                clearErrors('internshipType')
-                internshipType.onChange(newInternshipType, { shouldDirty: true })
+              onChange={(_, newInterestAreas) => {
+                formMethods.clearErrors('interestAreas')
+                if (newInterestAreas.length < 1) {
+                  formMethods.setError('interestAreas', new Error('Must have at least 1 selected'))
+                }
+
+                interestAreasField.onChange(newInterestAreas)
+                interestAreasField.onBlur()
               }}
             />
+
             <FormInput
               label="Description"
               fieldName="description"

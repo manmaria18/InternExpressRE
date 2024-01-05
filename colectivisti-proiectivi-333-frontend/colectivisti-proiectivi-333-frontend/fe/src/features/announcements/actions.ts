@@ -27,9 +27,18 @@ export const deleteAnnouncement = createAsyncThunk('deleteAnnouncement', async (
 })
 
 export const addAnnouncement = createAsyncThunk('addAnnouncement', async (ann: Submission) => {
-  const response = await addAnnouncementCall(ann)
-
-  return response.data
+  try {
+    // eslint-disable-next-line no-console
+    console.log('I was here STEP 3', ann)
+    const response = await addAnnouncementCall(ann)
+    // eslint-disable-next-line no-console
+    console.log('I was here STEP 4', response)
+    return response.data
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('API Error:', error)
+    throw error // Rethrow the error to let Redux Toolkit handle it
+  }
 })
 
 export const updateAnnouncement = createAsyncThunk('updateAnnouncement', async (ann: UpdateSubmission) => {

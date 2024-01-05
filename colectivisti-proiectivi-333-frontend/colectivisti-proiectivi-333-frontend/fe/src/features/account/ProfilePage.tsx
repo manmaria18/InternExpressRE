@@ -111,7 +111,14 @@ const ProfilePage: React.FC = () => {
   const ongoingStudyValue = formMethods.watch('ongoingStudy')
   const completeStudiesValue = formMethods.watch('completedStudies')
   const interestAreasValue = formMethods.watch('interestAreas')
-
+  const predefinedInterestAreas = [
+    { id: 1, name: 'Technology' },
+    { id: 2, name: 'Science' },
+    { id: 3, name: 'Art' },
+    { id: 4, name: 'Computer Science' },
+    { id: 5, name: 'Law' },
+    { id: 6, name: 'Psychology' },
+  ]
   const isPageLoading =
     userDataLoading ||
     userAvatarLoading ||
@@ -224,11 +231,38 @@ const ProfilePage: React.FC = () => {
                 completedStudiesField.onBlur()
               }}
             />
+            {/*<Autocomplete*/}
+            {/*  multiple*/}
+            {/*  options={interestAreasOptions || []}*/}
+            {/*  getOptionLabel={option => option.name}*/}
+            {/*  isOptionEqualToValue={(option, value) => option.id === value.id}*/}
+            {/*  value={interestAreasValue ?? []}*/}
+            {/*  filterSelectedOptions*/}
+            {/*  renderInput={params => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      helperText={errors.interestAreas?.message}*/}
+            {/*      error={!!errors.interestAreas}*/}
+            {/*      color="secondary"*/}
+            {/*      InputLabelProps={{ shrink: true }}*/}
+            {/*      label="Interest Areas"*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  onChange={(_, newInterestAreas) => {*/}
+            {/*    formMethods.clearErrors('interestAreas')*/}
+            {/*    if (newInterestAreas.length < 1) {*/}
+            {/*      formMethods.setError('interestAreas', new Error('Must have 1 selected'))*/}
+            {/*    }*/}
+
+            {/*    interestAreasField.onChange(newInterestAreas)*/}
+            {/*    interestAreasField.onBlur()*/}
+            {/*  }}*/}
+            {/*/>*/}
             <Autocomplete
               multiple
-              options={interestAreasOptions || []}
+              options={predefinedInterestAreas}
               getOptionLabel={option => option.name}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
+              getOptionSelected={(option, value) => option.id === value.id}
               value={interestAreasValue ?? []}
               filterSelectedOptions
               renderInput={params => (
@@ -244,7 +278,7 @@ const ProfilePage: React.FC = () => {
               onChange={(_, newInterestAreas) => {
                 formMethods.clearErrors('interestAreas')
                 if (newInterestAreas.length < 1) {
-                  formMethods.setError('interestAreas', new Error('Must have 1 selected'))
+                  formMethods.setError('interestAreas', new Error('Must have at least 1 selected'))
                 }
 
                 interestAreasField.onChange(newInterestAreas)
